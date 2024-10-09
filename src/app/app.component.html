@@ -1,0 +1,16 @@
+@if (modalIsOpen()) {
+    <modal></modal>
+}
+<header>
+  <div class="container">
+    <div class="header-container">
+      <div class="header-logo-menu-container">
+        <mobile-navbar></mobile-navbar>
+        <desktop-navbar></desktop-navbar>
+      </div>
+    </div>
+  </div>
+</header>
+<main>
+  <router-outlet></router-outlet>
+</main>
