@@ -1,0 +1,16 @@
+.card-container {
+	display: grid;
+	grid-template-columns: 1fr;
+
+  @media screen and (min-width: 900px) {
+    padding-top: 1rem;
+		grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+  }
+}
+
+.main-content {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	padding: 1rem;
+}

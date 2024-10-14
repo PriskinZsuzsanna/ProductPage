@@ -1,25 +1,27 @@
-import { Component } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { NgClass } from '@angular/common';
+import { Component, inject, Signal, signal, WritableSignal } from '@angular/core';
+import { NavbarService } from '../../services/navbar.service';
 
 @Component({
   selector: 'mobile-navbar',
   standalone: true,
+  imports: [NgClass],
   template: `
     <div class="logo">
-      @if (isOpenSubject.value) {
-        <div class="filter" ></div>
-        <nav class="open-mobile-nav">
-          <img (click)="openClose()" src="assets/images/icon-close.svg" alt="">
-          <ul>
-            <li>Collections</li>
-            <li>Men</li>
-            <li>Women</li>
-            <li>About</li>
-            <li>Contact</li>
-          </ul>
+        <nav
+          class="mobile-nav"
+          [ngClass]="{open: isOpen()}"
+          (click)="toggleNavbarState()">
+            <img src="assets/images/icon-close.svg" alt="Close icon">
+            <ul>
+              <li>Collections</li>
+              <li>Men</li>
+              <li>Women</li>
+              <li>About</li>
+              <li>Contact</li>
+            </ul>
         </nav>
-      }
-      <img (click)="openClose()" src="assets/images/icon-menu.svg" alt="">
+      <img (click)="toggleNavbarState()" src="assets/images/icon-menu.svg" alt="Navbar menu icon">
       <img src="assets/images/logo.svg" alt="" class="logo-title">
   </div>
   `,
@@ -38,28 +40,23 @@ import { BehaviorSubject } from 'rxjs';
       }
     }
 
-    .filter {
+    .mobile-nav {
       position: absolute; /*relative to header*/
-      left:0;
+      left: -100%;
       top: 0;
       width: 100%;
       min-height: 100vh;
-      background: #000000a1;
-      z-index: 9;
-    }
-
-    .open-mobile-nav {
-      position: absolute; /*relative to header*/
-      left:0;
-      top: 0;
-      width: 66%;
-      min-height: 100vh;
-      background: var(--white);
+      background: linear-gradient(90deg, white, var(--pale-orange));
       padding: 1.5rem;
       z-index: 10;
+      transition: left .3s;
+
+      &.open {
+        left: 0;
+      }
     }
 
-    .open-mobile-nav ul {
+    .mobile-nav ul {
         list-style: none;
         display: flex;
         flex-direction: column;
@@ -70,6 +67,7 @@ import { BehaviorSubject } from 'rxjs';
     ul li {
         font-weight: 700;
         font-size: 1.4rem;
+        cursor: pointer;
     }
 
     @media (min-width: 900px) {
@@ -77,8 +75,7 @@ import { BehaviorSubject } from 'rxjs';
             display: none;
         }
 
-        .open-mobile-nav,
-        .filter {
+        .open-mobile-nav {
             display: none;
         }
     }
@@ -86,10 +83,10 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class MobileNavbar {
 
-  isOpenSubject = new BehaviorSubject<boolean>(false);
+  navbarService: NavbarService = inject(NavbarService);
+  isOpen: Signal<boolean> = this.navbarService.isOpen;
 
-  openClose() {
-    let actual = this.isOpenSubject.value;
-    this.isOpenSubject.next(!actual);
+  toggleNavbarState() {
+    this.navbarService.setNavbarState(!this.isOpen());
   }
 }
