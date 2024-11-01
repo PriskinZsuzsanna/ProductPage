@@ -1,0 +1,39 @@
+.cart-section {
+	display: flex;
+	align-items: flex-end;
+	gap: .8rem;
+
+  @media (min-width:700px) {
+    gap: 1.4rem;
+}
+}
+
+.cart-container {
+  position: relative;
+
+  .cart-container img {
+    width: 25px;
+    height: 25px;
+  }
+
+  small {
+    position: absolute;
+    top: -.3rem;
+    right: -.6rem;
+    padding: 0 .5rem;
+    border-radius: 40%;
+    background: var(--orange);
+    color: var(--white);
+    scale: .9;
+  }
+}
+
+.avatar {
+  width: 33px;
+  height: 33px;
+
+  @media (min-width:700px) {
+    width: 40px;
+    height: 40px;
+  }
+}
