@@ -1,0 +1,11 @@
+<section class="price-container">
+  <div class="price-flex-container">
+      <div class="left-flex">
+          <h2>${{price() | number:'1.2-2'}}</h2>
+          <p class="discount">{{discount() | percent : '2.0'}}</p>
+      </div>
+      <div>
+          <p class="original-price">${{price() * (1 / discount()) | number:'1.2-2'}}</p>
+      </div>
+  </div>
+</section>

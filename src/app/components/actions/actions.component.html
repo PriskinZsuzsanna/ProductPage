@@ -1,0 +1,23 @@
+<section class="actions">
+	<div class="action-container">
+		<button (click)="reduceQuantity()">
+			<img src="/assets/images/icon-minus.svg" alt="minus button">
+		</button>
+		<p class="action-chart-count">{{ quantity()}}</p>
+		<button (click)="increaseQuantity()">
+			<img src="/assets/images/icon-plus.svg" alt="plus button">
+		</button>
+	</div>
+	<div class="button-container">
+    @if (!isLoading) {
+      <button class="add" (click)="addToCart()">
+        <img src="/assets/images/icon-cart-white.svg" alt="add to cart button">
+        Add to cart
+      </button>
+    } @else {
+      <div class="spinner-container">
+        <!-- @todo <app-loading></app-loading> -->
+      </div>
+    }
+	</div>
+</section>
