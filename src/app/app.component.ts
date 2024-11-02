@@ -5,11 +5,12 @@ import { ModalService } from './services/modal.service';
 import { DesktopNavbarComponent } from './components/navbar/desktop-navbar.component';
 import { MobileNavbar } from './components/navbar/mobile-navbar.component';
 import { CartComponent } from './components/cart/cart.component';
+import { ProductPage } from './frames/product-page/product-page.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, ModalComponent, DesktopNavbarComponent, MobileNavbar, CartComponent],
+  imports: [RouterOutlet, ModalComponent, DesktopNavbarComponent, MobileNavbar, CartComponent, ProductPage],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

@@ -10,8 +10,7 @@ export class NavbarService {
   /* SELECTOR */
   isOpen: Signal<boolean> = computed(() => this.state().isOpen);
 
-  constructor() { }
-
+  /* ACTION */
   setNavbarState(isOpen: boolean) {
     this.state.update(state => ({
       ...state,

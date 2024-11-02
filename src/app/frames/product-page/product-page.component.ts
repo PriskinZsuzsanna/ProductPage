@@ -1,10 +1,11 @@
 import { Component, inject, Signal } from "@angular/core";
 import { ModalService } from "../../services/modal.service";
+import { GalleryComponent } from "../../components/gallery/gallery.component";
 
 @Component({
   selector: 'product-page',
   standalone: true,
-  imports: [],
+  imports: [GalleryComponent],
   templateUrl: './product-page.component.html',
   styleUrl: './product-page.component.scss'
 })
