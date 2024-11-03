@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { computed, inject, Injectable, Signal, signal, WritableSignal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { map, tap } from 'rxjs';
+import { map, Observable, tap } from 'rxjs';
 import { fromInteropObservable } from 'rxjs/internal/observable/innerFrom';
 
 @Injectable({
@@ -17,7 +17,8 @@ export class DataService {
     text: '',
     price: 0,
     discount: 0,
-    quantityInCart: 0 //@todo move to cartService?
+    quantityInCart: 0, //@todo move to cartService?
+    loading: false
   });
 
   /* SELECTOR */
@@ -29,22 +30,33 @@ export class DataService {
   price: Signal<number> = computed(() => this.state().price);
   discount: Signal<number> = computed(() => this.state().discount);
   quantityInCart: Signal<number> = computed(() => this.state().quantityInCart);
+  loading: Signal<boolean> = computed(() => this.state().loading);
 
   http = inject(HttpClient);
 
   /* ACTION */
-  getData(idParam: number) {
-    this.http.get<{ items: Array<DataState>}>('/assets/data.json')
-      .pipe(map(data => data.items.find((item: DataState) => item.id === idParam)))
-      .subscribe((item: DataState| undefined) => {
-        if (item) {
-          this.setData(item);
-        }
-      });
+  getData(): Observable<{items: Array<DataState>}> {
+    return this.http.get<{ items: Array<DataState>}>('/assets/data.json')
   }
 
   setData(item: DataState) {
-    this.state.set(item);
+    this.state.update(state => ({
+      ...state,
+      id: item.id,
+      galleryItems: item.galleryItems,
+      group: item.group,
+      title: item.title,
+      text: item.text,
+      price: item.price,
+      discount: item.discount
+    }));
+  }
+
+  setLoadingState(loading: boolean) {
+    this.state.update(state => ({
+      ...state,
+      loading
+    }))
   }
 }
 
@@ -56,5 +68,6 @@ export interface DataState {
   text: string,
   price: number,
   discount: number,
-  quantityInCart: number
+  quantityInCart: number,
+  loading: boolean
 }

@@ -1,6 +1,8 @@
 <article class="gallery-section">
   <div class="img-container">
-    <img class="actual-gallery-img" [src]="activeGalleryItem()?.src + '.jpg'" alt="product">
+    @if (activeGalleryItem()?.src) {
+      <img class="actual-gallery-img" [src]="activeGalleryItem()?.src + '.jpg'" alt="product">
+    }
     <button class="prev-next" (click)="onPrevClick()">
         <img src="/assets/images/icon-previous.svg" alt="prev button">
     </button>
