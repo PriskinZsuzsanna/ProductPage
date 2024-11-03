@@ -1,4 +1,8 @@
-import { computed, Injectable, Signal, signal, WritableSignal } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { computed, inject, Injectable, Signal, signal, WritableSignal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { map, tap } from 'rxjs';
+import { fromInteropObservable } from 'rxjs/internal/observable/innerFrom';
 
 @Injectable({
   providedIn: 'root'
@@ -6,19 +10,14 @@ import { computed, Injectable, Signal, signal, WritableSignal } from '@angular/c
 export class DataService {
   /* STATE */
   private state: WritableSignal<DataState> = signal<DataState>({
-    id: 1,
-    galleryItems: [
-      { id: 1, src: '/assets/images/image-product-1' },
-      { id: 2, src: '/assets/images/image-product-2' },
-      { id: 3, src: '/assets/images/image-product-3' },
-      { id: 4, src: '/assets/images/image-product-4' },
-    ],
-    group: 'sneaker company',
-    title: 'fall limited edition sneakers',
-    text: "These low-profile sneakers are your perfect casual wear companion. Featuring a durable rubber outer sole, they'll withstand everything the weather can offer.",
-    price: 125,
-    discount: 0.5,
-    quantityInCart: 0
+    id: 0,
+    galleryItems: [],
+    group: '',
+    title: '',
+    text: '',
+    price: 0,
+    discount: 0,
+    quantityInCart: 0 //@todo move to cartService?
   });
 
   /* SELECTOR */
@@ -31,12 +30,21 @@ export class DataService {
   discount: Signal<number> = computed(() => this.state().discount);
   quantityInCart: Signal<number> = computed(() => this.state().quantityInCart);
 
+  http = inject(HttpClient);
+
   /* ACTION */
-  setData() {
-    this.state.update(state => ({
-      ...state,
-      /* @todo: call data on activatedRouteParam */
-    }))
+  getData(idParam: number) {
+    this.http.get<{ items: Array<DataState>}>('/assets/data.json')
+      .pipe(map(data => data.items.find((item: DataState) => item.id === idParam)))
+      .subscribe((item: DataState| undefined) => {
+        if (item) {
+          this.setData(item);
+        }
+      });
+  }
+
+  setData(item: DataState) {
+    this.state.set(item);
   }
 }
 
