@@ -1,4 +1,5 @@
 import { computed, Injectable, Signal, signal, WritableSignal } from '@angular/core';
+import { DataState } from './data.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +11,7 @@ export class CartService {
   });
 
   /* SELECTOR */
+  items: Signal<CartItem[]> = computed(() => this.state().items);
   quantity: Signal<number> = computed(() => this.state().items.length);
 
   /* ACTION */

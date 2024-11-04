@@ -18,7 +18,8 @@ export class DataService {
     price: 0,
     discount: 0,
     quantityInCart: 0, //@todo move to cartService?
-    loading: false
+    loading: false,
+    errorMessage: ''
   });
 
   /* SELECTOR */
@@ -31,6 +32,7 @@ export class DataService {
   discount: Signal<number> = computed(() => this.state().discount);
   quantityInCart: Signal<number> = computed(() => this.state().quantityInCart);
   loading: Signal<boolean> = computed(() => this.state().loading);
+  errorMessage: Signal<string> = computed(() => this.state().errorMessage);
 
   http = inject(HttpClient);
 
@@ -58,6 +60,13 @@ export class DataService {
       loading
     }))
   }
+
+  setErrorState(errorMessage: string) {
+    this.state.update(state => ({
+      ...state,
+      errorMessage
+    }))
+  }
 }
 
 export interface DataState {
@@ -69,5 +78,6 @@ export interface DataState {
   price: number,
   discount: number,
   quantityInCart: number,
-  loading: boolean
+  loading: boolean,
+  errorMessage: string
 }

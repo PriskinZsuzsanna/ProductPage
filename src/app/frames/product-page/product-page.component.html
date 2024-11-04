@@ -3,12 +3,16 @@
     @if (isLoading()) {
       <div style="text-align: center;">Loading...</div>
     } @else {
-      <gallery></gallery>
-      <article class="card-content">
-        <text></text>
-        <price></price>
-        <actions></actions>
-      </article>
+        @if(errorMessage()) {
+          <div style="text-align: center;">{{ errorMessage() }}</div>
+        } @else {
+          <gallery></gallery>
+          <article class="card-content">
+            <text></text>
+            <price></price>
+            <actions></actions>
+          </article>
+        }
     }
   </div>
 </div>
