@@ -12,15 +12,42 @@ export class CartService {
 
   /* SELECTOR */
   items: Signal<CartItem[]> = computed(() => this.state().items);
-  quantity: Signal<number> = computed(() => this.state().items.length);
+  quantity: Signal<number> = computed(() => this.state().items.reduce((acc, item) => {
+    acc += item.quantity();
+    return acc;
+  }, 0));
 
   /* ACTION */
-  addToCart(id: Signal<number>, quantity: Signal<number>, price: Signal<number>) {
-    this.state.update(state => ({
-      ...state,
-      items: [...state.items, {id, quantity, price} ] // @todo find - reduce
-    }));
+  addToCart(id: Signal<number>, title: Signal<string>, quantity: Signal<number>, price: Signal<number>) {
+    const itemId = id();
+    const itemTitle = title();
+    const itemQuantity = quantity();
+    const itemPrice = price();
+  
+    const currentState = this.state();
+  
+    const existingItem = currentState.items.find(item => item.id() === itemId);
+  
+    this.state.update(state => {
+      const updatedItems = existingItem
+        ? state.items.map(item =>
+            item.id() === itemId
+              ? { ...item, quantity: computed(() => item.quantity() + itemQuantity) }
+              : item
+          )
+        : [
+            ...state.items,
+            { id: signal(itemId), title: signal(itemTitle), quantity: signal(itemQuantity), price: signal(itemPrice) }
+          ];
+  
+      return {
+        ...state,
+        items: updatedItems as CartItem[]
+      };
+    });
   }
+  
+  
 }
 
 export interface CartState {
@@ -29,6 +56,7 @@ export interface CartState {
 
 export interface CartItem {
   id: Signal<number>,
+  title: Signal<string>,
   quantity: Signal<number>,
   price: Signal<number>
 }

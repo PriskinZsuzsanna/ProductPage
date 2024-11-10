@@ -13,7 +13,88 @@
 }
 
 .modal-container {
-  width: 500px;
-  height: 300px;
-  background: aqua;
+  width: min(92%, 700px);
+  margin-inline: auto;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: stretch;
+	gap: .5rem;
+	background: var(--white);
+	border-radius: .6rem;
+	padding: 1.4rem;
+}
+
+.modal-header {
+	display: flex;
+	justify-content: space-between;
+	gap: 20px;
+	align-items: center;
+	cursor: pointer;
+	padding-bottom: .5rem;
+	border-bottom: 1px solid var(--light-grayish-blue);
+}
+
+.checkout-flex {
+	display: block;
+}
+
+.text-icon-container {
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 1rem;
+}
+
+img.product {
+	width: 70px;
+}
+
+img.delete-icon {
+	background: #707070;
+	padding: 1rem;
+	border-radius: .3rem;
+}
+
+.button-container {
+	margin-top: 1rem;
+	display: flex;
+	justify-content: center;
+}
+
+button {
+	border-radius: .6rem;
+	width: min(100%, 300px);
+	background: var(--orange);
+	color: var(--white);
+	padding: 1.2rem;
+	font-weight: 700;
+	font-size: 1.2rem;
+}
+
+p {
+	font-size: 1.2rem;
+	line-height: 1.6;
+  padding: 0;
+}
+
+span {
+	font-weight: 700;
+	padding-inline: 1rem;
+}
+
+.empty-message p {
+	text-align: center;
+	font-weight: bold;
+	padding-bottom: 1rem;
+}
+
+@media screen and (min-width: 400px) {
+	.checkout-flex {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		gap: 1rem;
+	}
 }

@@ -15,13 +15,14 @@ export class ActionsComponent {
   dataService = inject(DataService);
 
   id: Signal<number> = this.dataService.id;
+  title: Signal<string> = this.dataService.title;
   quantityInCart: Signal<number> = this.dataService.quantityInCart;
   quantity: WritableSignal<number> = signal(1);
   price: Signal<number>= this.dataService.price;
   isLoading: boolean = false;
 
   addToCart(): void {
-    this.cartService.addToCart(this.id, this.quantity, this.price);
+    this.cartService.addToCart(this.id, this.title, this.quantity, this.price);
   }
 
   reduceQuantity(): void {

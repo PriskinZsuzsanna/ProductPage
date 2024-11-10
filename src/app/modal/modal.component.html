@@ -1,3 +1,32 @@
 <div class="modal-backdrop" (click)="toggleModal()">
-  <div class="modal-container"></div>
+  <div class="modal-container">
+      <div class="modal-header">
+        <h3>Cart</h3>
+        <p>x</p>
+      </div>
+      <div class="modal-body" *ngIf="items().length">
+        <div *ngFor="let item of items()">
+          <div class="checkout-flex">
+            <img class="product" src="assets/images/image-product-1-thumbnail.jpg" alt="product-1">
+            <div class="text-icon-container">
+              <div>
+                <p>{{ item.title() | titlecase }}</p>
+                <p>${{ item.price() | number: '1.2-2' }} x {{item.quantity()}} <span>${{ (item.price() * item.quantity()) | number: '1.2-2'
+                  }}</span></p>
+              </div>
+              <img class="delete-icon" (click)="deleteItem(item.id(), $event)" src="assets/images/icon-delete.svg" alt="delete-item-icon">
+            </div>
+          </div>
+        </div>
+        <div class="button-container">
+          <button>Checkout</button>
+        </div>
+      </div>
+      <div class="empty-message" *ngIf="!items" class="empty-message">
+        <p>Your modal is empty!</p>
+        <div class="button-container">
+          <button>Continue shopping!</button>
+        </div>
+      </div>
+  </div>
 </div>

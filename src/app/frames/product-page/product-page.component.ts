@@ -34,7 +34,7 @@ export class ProductPage {
     this.dataService.getData()
       .pipe(
         map(data => data.items.find((item: DataState) => item.id === this.pageId)),
-        delay(2000),
+        delay(1000),
         finalize(() => {
           this.dataService.setLoadingState(false);
         })
