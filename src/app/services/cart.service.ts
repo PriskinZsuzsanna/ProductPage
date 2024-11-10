@@ -24,12 +24,12 @@ export class CartService {
     const itemQuantity = quantity();
     const itemPrice = price();
   
-    const currentState = this.state();
+    const currentState: CartState = this.state();
   
-    const existingItem = currentState.items.find(item => item.id() === itemId);
+    const existingItem: CartItem | undefined = currentState.items.find(item => item.id() === itemId);
   
     this.state.update(state => {
-      const updatedItems = existingItem
+      const updatedItems: CartItem[] = existingItem
         ? state.items.map(item =>
             item.id() === itemId
               ? { ...item, quantity: computed(() => item.quantity() + itemQuantity) }
@@ -42,12 +42,19 @@ export class CartService {
   
       return {
         ...state,
-        items: updatedItems as CartItem[]
+        items: updatedItems
       };
     });
   }
   
-  
+  deleteFromCart(id: number) {
+    const currentState: CartState = this.state();
+    const updatedItems: CartItem[] = currentState.items.filter(item => item.id() !== id);
+    this.state.update(state => ({
+      ...this.state,
+      items: updatedItems as CartItem[]
+    }))
+  }
 }
 
 export interface CartState {

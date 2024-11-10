@@ -1,4 +1,4 @@
-import { afterNextRender, Component, inject, Input, numberAttribute, signal, Signal, WritableSignal } from "@angular/core";
+import { afterNextRender, Component, effect, inject, Input, numberAttribute, signal, Signal, SimpleChange, WritableSignal } from "@angular/core";
 import { ModalService } from "../../services/modal.service";
 import { GalleryComponent } from "../../components/gallery/gallery.component";
 import { TextComponent } from "../../components/text/text.component";
@@ -6,6 +6,7 @@ import { PriceComponent } from "../../components/price/price.component";
 import { ActionsComponent } from "../../components/actions/actions.component";
 import { DataService, DataState } from "../../services/data.service";
 import { catchError, delay, finalize, map } from "rxjs";
+import { ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: 'product-page',
@@ -18,6 +19,7 @@ export class ProductPage {
   @Input({transform: numberAttribute}) pageId: number = 0;
   modalService: ModalService = inject(ModalService);
   dataService: DataService = inject(DataService);
+  route: ActivatedRoute = inject(ActivatedRoute);
   open: Signal<boolean> = this.modalService.open;
   isLoading: Signal<boolean> = this.dataService.loading;
   errorMessage: Signal<string> = this.dataService.errorMessage;
@@ -26,6 +28,14 @@ export class ProductPage {
     afterNextRender(() => { //for mock delay
       this.getData();
     })
+
+    this.route.paramMap.subscribe(params => {
+      const newPageId = Number(params.get('pageId'));
+      if (newPageId && newPageId !== this.pageId) {
+        this.pageId = newPageId; // Update @Input value
+        this.getData();
+      }
+    });
   }
 
   getData() {

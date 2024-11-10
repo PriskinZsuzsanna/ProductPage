@@ -22,7 +22,6 @@ export class ModalComponent {
 
   deleteItem(id: number, event: Event): void {
     event.stopPropagation();
-    //this.cartService.deleteItem(id);
-    //this.cartObservable$ = this.dataService.itemsInCart$;
+    this.cartService.deleteFromCart(id);
   }
 }
