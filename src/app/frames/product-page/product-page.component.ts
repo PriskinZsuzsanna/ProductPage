@@ -1,11 +1,11 @@
-import { afterNextRender, Component, effect, inject, Input, numberAttribute, signal, Signal, SimpleChange, WritableSignal } from "@angular/core";
+import { afterNextRender, Component, effect, inject, Input, makeStateKey, numberAttribute, PLATFORM_ID, signal, Signal, SimpleChange, TransferState, WritableSignal } from "@angular/core";
 import { ModalService } from "../../services/modal.service";
 import { GalleryComponent } from "../../components/gallery/gallery.component";
 import { TextComponent } from "../../components/text/text.component";
 import { PriceComponent } from "../../components/price/price.component";
 import { ActionsComponent } from "../../components/actions/actions.component";
 import { DataService, DataState } from "../../services/data.service";
-import { catchError, delay, finalize, map } from "rxjs";
+import { catchError, delay, EMPTY, finalize, map } from "rxjs";
 import { ActivatedRoute } from "@angular/router";
 
 @Component({
@@ -25,9 +25,6 @@ export class ProductPage {
   errorMessage: Signal<string> = this.dataService.errorMessage;
 
   constructor() {
-    afterNextRender(() => { //for mock delay
-      this.getData();
-    })
 
     this.route.paramMap.subscribe(params => {
       const newPageId = Number(params.get('pageId'));
@@ -47,6 +44,10 @@ export class ProductPage {
         delay(1000),
         finalize(() => {
           this.dataService.setLoadingState(false);
+        }),
+        catchError(() => {
+          this.dataService.setErrorState('Error...');
+          return EMPTY;
         })
       )
       .subscribe((item: DataState | undefined) => {
