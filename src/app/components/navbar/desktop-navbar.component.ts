@@ -10,10 +10,6 @@ import { RouterLink } from "@angular/router";
       <ul>
         <li><a routerLink="/product-page/1">Product 1</a></li>
         <li><a routerLink="/product-page/2">Product 2</a></li>
-        <li><a href="#">Man</a></li>
-        <li><a href="#">Women</a></li>
-        <li><a href="#">About</a></li>
-        <li><a href="#">Contact</a></li>
       </ul>
     </nav>
   `,

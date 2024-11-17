@@ -14,11 +14,8 @@ import { NavbarService } from '../../services/navbar.service';
           (click)="toggleNavbarState()">
             <img src="assets/images/icon-close.svg" alt="Close icon">
             <ul>
-              <li>Collections</li>
-              <li>Men</li>
-              <li>Women</li>
-              <li>About</li>
-              <li>Contact</li>
+              <li><a routerLink="/product-page/1">Product 1</a></li>
+              <li><a routerLink="/product-page/2">Product 2</a></li>
             </ul>
         </nav>
       <img (click)="toggleNavbarState()" src="assets/images/icon-menu.svg" alt="Navbar menu icon">

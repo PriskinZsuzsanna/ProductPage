@@ -54,17 +54,31 @@ export class DataService {
     }));
   }
 
-  setLoadingState(loading: boolean) {
+  setLoadingState(loading: boolean): void {
     this.state.update(state => ({
       ...state,
       loading
-    }))
+    }));
   }
 
-  setErrorState(errorMessage: string) {
+  setErrorState(errorMessage: string): void {
     this.state.update(state => ({
       ...state,
       errorMessage
+    }));
+  }
+
+  resetProductData(): void {
+    this.state.update(state => ({
+      ...state,
+      id: 0,
+      galleryItems: [],
+      group: '',
+      title: '',
+      text: '',
+      price: 0,
+      discount: 0,
+      quantityInCart: 0,
     }))
   }
 }

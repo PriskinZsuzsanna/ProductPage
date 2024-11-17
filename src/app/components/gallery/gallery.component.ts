@@ -1,4 +1,4 @@
-import { NgClass, NgFor } from '@angular/common';
+import { NgClass, NgFor, NgIf } from '@angular/common';
 import { Component, computed, inject, Signal } from '@angular/core';
 import { BehaviorSubject, tap } from 'rxjs';
 import { GalleryService } from '../../services/gallery.service';
@@ -7,7 +7,7 @@ import { DataService } from '../../services/data.service';
 @Component({
   selector: 'gallery',
   standalone: true,
-  imports: [NgClass, NgFor],
+  imports: [NgClass],
   templateUrl: './gallery.component.html',
   styleUrl: './gallery.component.scss'
 })
